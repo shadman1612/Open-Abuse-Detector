@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Abuse Detector</title></head>
+<body>
+  <h1>Tweet Abuse Detector</h1>
+  <input id="tweet" type="text" placeholder="Enter tweet..." />
+  <button onclick="classify()">Classify</button>
+  <div id="result"></div>
+  <script>
+    async function classify() {
+      const text = document.getElementById("tweet").value;
+      const res = await fetch("http://localhost:8000/classify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const data = await res.json();
+      document.getElementById("result").innerText = `Label: ${data.label}, Score: ${data.score.toFixed(3)}`;
+    }
+  </script>
+</body>
+</html>
